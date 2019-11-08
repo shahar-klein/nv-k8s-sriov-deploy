@@ -1,0 +1,24 @@
+- hosts: k8s-cluster
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: set apt to upstream
+      shell: echo "deb http://3.19.28.122/openvswitch/stable /" |  tee /etc/apt/sources.list.d/openvswitch.list
+    - name: set apt to upstream
+      shell: curl http://3.19.28.122/openvswitch/keyFile |  apt-key add - 
+    - name: install libopenvswitch
+      apt:
+        name: libopenvswitch=2.11.3-1
+        state: present
+    - name: install openvswitch-common
+      apt:
+        update_cache: yes
+        name: openvswitch-common=2.11.3-1
+        state: present
+    - name: install openvswitch-switch
+      apt:
+        name: openvswitch-switch=2.11.3-1
+        state: present
+    - name: start ovs
+      shell: systemctl restart openvswitch-switch
+
