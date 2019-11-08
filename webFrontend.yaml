@@ -1,0 +1,65 @@
+# Web Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  labels:
+    name: web
+    app: demo
+spec:
+  selector:
+    name: web
+  type: NodePort
+  ports:
+    - port: 80
+      name: http
+      targetPort: 5000
+      protocol: TCP
+
+---
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: web
+  labels:
+    name: web
+    app: demo
+  annotations:
+    v1.multus-cni.io/default-network: sriov-ovn-1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: web
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379
+              name: redis
+              protocol: TCP
+          resources:
+           requests:
+             intel.com/sriov: '1'
+           limits:
+             intel.com/sriov: '1'
+        - name: python
+          image: quay.io/gmoodalbail/web:latest 
+          env:
+            - name: "REDIS_HOST"
+              value: "localhost"
+          ports:
+            - containerPort: 5000
+              name: http
+              protocol: TCP
+          resources:
+           requests:
+             intel.com/sriov: '1'
+           limits:
+             intel.com/sriov: '1'
+
+
+

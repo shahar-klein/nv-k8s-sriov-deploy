@@ -8,7 +8,7 @@ metadata:
     v1.multus-cni.io/default-network: sriov-ovn-1
 spec:
   containers:
-  - image: shaharklein/ub-gen:latest
+  - image: shaharklein/ub-gen:5
     command:
       - sleep
       - "3600"

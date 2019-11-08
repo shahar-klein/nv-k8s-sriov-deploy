@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node2-pod
+  namespace: default
+  labels:
+    k8s-app: ping1-test
+  annotations:
+    v1.multus-cni.io/default-network: sriov-ovn-1
+spec:
+  containers:
+  - image: shaharklein/ub-gen:5
+    command:
+      - sleep
+      - "3600"
+    imagePullPolicy: IfNotPresent
+    name: node2-pod
+    resources:
+     requests:
+       intel.com/sriov: '1'
+     limits:
+       intel.com/sriov: '1'
+  nodeSelector:
+    nodeName: node2
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node3-pod
+  namespace: default
+  labels:
+    k8s-app: ping1-test
+  annotations:
+    v1.multus-cni.io/default-network: sriov-ovn-1
+spec:
+  containers:
+  - image: shaharklein/ub-gen:5
+    command:
+      - sleep
+      - "3600"
+    imagePullPolicy: IfNotPresent
+    name: node3-pod
+    resources:
+     requests:
+       intel.com/sriov: '1'
+     limits:
+       intel.com/sriov: '1'
+  nodeSelector:
+    nodeName: node3
+
