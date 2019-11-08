@@ -86,7 +86,7 @@ Also note that if you don't have a gateway/router in 10.50.55.1 - you can only t
 
 ## Running tests/demos
 There are 3 basic shell script tests: ping iperf and webDBSvc.
-to run it: i.e.
+i.e.
 ```
 # bash iperf1.sh
 ```
